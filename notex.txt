@@ -1,0 +1,23 @@
+
+            FileOutputStream fos = new FileOutputStream(new File("text.csv"));
+            PrintWriter pw = new PrintWriter(fos);
+
+            pw.println("Name;Class;Marks");
+            pw.println("Aman;10;620");
+            pw.println("Surai;10;630");
+            
+            String name = "Giovanna";
+            int classe = 10;
+            int marks = 600;
+            pw.println(name + ";" + classe + ";" + marks);
+            
+            pw.close();
+
+
+            /* 
+            ! View only
+            */
+            FileOutputStream fos2 = new FileOutputStream(new File("text.txt"));
+            PrintWriter pw2 = new PrintWriter(fos2);
+            pw2.print(text);
+            pw2.close();
