@@ -73,6 +73,7 @@ public class App{
         for (int l = 2; l < table.size(); l++){
             /* From the index 1 of the table's lines, we start to write our content. */
             String[] fields = table.get(l).split(" ", 2);
+
             
             String field = "";
             for (int k = 0; k < fields.length; k++){
@@ -147,9 +148,22 @@ public class App{
 
             String str = t.get(i);
 
-            /* If the string has any of the following characters (whitespaces, 
-            the given phase, or even the numbers) we won't add to the list. */
-            if (!StringUtils.isBlank(str) && !str.equals(" ") && !str.contains("Padrão TISS - ") && 
+            /* This is due to the inconsistency of the data on the pdf text extracted.
+            The data in the column "Código" with values 102, 119, 130, 143, 144, 146 and 147
+            wereseparated by a line break. */
+            if (str.contains("102") || str.contains("119") || str.contains("130") || 
+            str.contains("143") || str.contains("144") || str.contains("146") || str.contains("147")){
+                str = str.concat(t.get(i+1)).concat(t.get(i+2));
+                table.add(str);
+                t.remove(t.get(i));
+                t.remove(t.get(i+1));
+            } 
+
+            /* If the string has any of the following characters (whitespaces, the given 
+            phase, or even the numbers) we won't add to the list. 
+            This is due to the inconsistency of the data on the pdf text extracted.
+            The text included the page numbers of the pdf, along wih the title of the pdf. */
+            else if (!StringUtils.isBlank(str) && !str.equals(" ") && !str.contains("Padrão TISS - ") && 
                 !str.contains("80") && !str.contains("81") && !str.contains("82") && 
                 !str.contains("83") && !str.contains("84"))
                 table.add(str);
