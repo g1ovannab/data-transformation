@@ -1,10 +1,13 @@
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,7 +20,7 @@ public class App{
 
         /* Creating the instance of PDFManager who'll read the PDF for me. */
         PDFManager pdfManager = new PDFManager();
-        pdfManager.setFilePath("./tiss.pdf");
+        pdfManager.setFilePath("pdf/tiss.pdf");
 
         try {
 
@@ -28,6 +31,9 @@ public class App{
             ArrayList<ArrayList<String>> tables = getTables(text); 
 
 
+            File zip = new File("Teste_Intuitive_Care_Giovanna_Bueno.zip");
+            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zip));
+            
             for (int i = 0; i < tables.size(); i++){
 
                 ArrayList<String> table = tables.get(i);
@@ -37,7 +43,8 @@ public class App{
                 String path = table.get(0).replace("Tabela de", "").replaceAll("\\s+","");
 
 
-                File file = new File(path + ".csv");
+                File file = new File("files/" + path + ".csv");
+
 
                 if (!file.exists()){
                     OutputStream fos = new FileOutputStream(file);
@@ -52,19 +59,55 @@ public class App{
                     /* Writes the content of the fields on the table. */
                     setFields(table, dos);
     
-    
                     dos.close();
 
                     System.out.println("\nFile " + path + " created with success.");
                 } else 
                     System.out.println("\nFile " + path + " already exists.");
+
+                zipFiles(zip, file, zos);
+
             }
-            
-            //todo arrumar a segunda tabela            
-            //todo zipar os arquivos
+
+            zos.close();
+
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+
+    public static void zipFiles(File zip, File file, ZipOutputStream zos) throws IOException {
+    
+        try {
+            String name = file.getName();
+            
+            ZipEntry entry = new ZipEntry(name);
+            zos.putNextEntry(entry);
+      
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+                byte[] byteBuffer = new byte[1024];
+                int bytesRead = -1;
+                while ((bytesRead = fis.read(byteBuffer)) != -1) {
+                    zos.write(byteBuffer, 0, bytesRead);
+                }
+              zos.flush();
+            } finally {
+                try {
+                    fis.close();
+                } catch (Exception e) {
+                
+                }
+            }
+            zos.closeEntry();
+      
+            zos.flush();
+
+            System.out.println("\nFile " + name + " zipped with success.");
+        } finally {
+            
         }
     }
 
