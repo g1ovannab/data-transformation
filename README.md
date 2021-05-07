@@ -13,4 +13,4 @@ Finally, I needed to zip all the csvs files in another file (./Teste_Intuitive_C
 ## Run the code!
 The main class (App.java) is in the root directory.
 
-``ATENTION!`` See the ``settings.json`` file, because this project has referenced libraries. You~ll need to download the libraries and save it on the path determinated for me, or change the path on th jkson file.
+``ATENTION!`` See the ``settings.json`` file, because this project has referenced libraries. You'll need to download the libraries and save it on the path determinated for me, or change the path on the json file.
