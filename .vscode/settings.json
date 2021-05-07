@@ -1,8 +1,8 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "opencsv-5.4.jar",
-        "pdfbox-app-3.0.0-RC1.jar",
-        "commons-lang3-3.12.0.jar"
+        "c:\\Dev\\Java\\commons-lang3-3.12.0.jar",
+        "c:\\Dev\\Java\\opencsv-5.4.jar",
+        "c:\\Dev\\Java\\pdfbox-app-3.0.0-RC1.jar"
     ]
 }
